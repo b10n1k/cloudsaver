@@ -1,0 +1,59 @@
+{% extends "common/base.html" %}
+
+
+{% block container %}
+    <div class="container">
+ 
+      <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+          <div class="jumbotron">
+            <h1>Beautiful Ideas</h1>
+            {{ form.non_field_errors }}
+            <form action="" method="post">
+              {% csrf_token %}
+              <div class="input-group" id="{{ form.title.id_for_label }}">
+                <span class="input-group-addon" id="basic-addon1">Title</span>
+                {{ form.idea_title }}
+              </div>
+              <div class="input-group" id="{{ form.title.id_for_label }}">
+                <span class="input-group-addon" id="basic-addon1">Description</span>
+                {{ form.idea_text }}
+              </div>
+              <div class="input-group" id="{{ form.title.id_for_label }}">
+                <span class="input-group-addon" id="basic-addon1">Repo</span>
+                {{ form.idea_repo }}
+              </div>
+              </br>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            <!--p>Ideas and dreams. Comes out to you from nowhere. And sometimes they flow away with
+            the same way. Keep your ideas save fly with them and find collaborators.</p-->
+          </div>
+          <div class="row">
+            {% if latest_ideas_list %}
+    
+            {% for idea in latest_ideas_list %}
+            <div class="col-xs-6 col-lg-4">
+              <h2>{{ idea.idea_title }}</h2>
+              <p>{{ idea.idea_text }} </p>
+              <p><a class="btn btn-default" href="{% url 'ideas:detail' idea.id %}" role="button">View details »</a></p>
+            </div><!--/.col-xs-6.col-lg-4-->
+            {% endfor %}
+            {% else %}
+            <p>No polls are available.</p>
+            {% endif %}
+          </div><!--/row-->
+          
+        </div><!--/.col-xs-12.col-sm-9-->
+
+        {% block sidebar %}
+        {% include "common/sidebar.html" %}{% endblock %}
+      </div><!--/row-->
+      <hr>
+      
+    </div><!--/.container-->
+{% endblock %}

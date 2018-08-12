@@ -1,0 +1,52 @@
+{% extends "common/base.html" %}
+
+
+{% block container %}
+    <div class="container">
+ 
+      <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+          <div class="jumbotron">
+            <h1>{{ idea.idea_title }}</h1>
+            {{ form.non_field_errors }}
+            <form action="" method="post">
+              {% csrf_token %}
+              <div class="input-group" id="{{ form.idea_title.id_for_label }}">
+                <span class="input-group-addon" id="basic-addon1">Title</span>
+                {{ form.idea_title }}
+              </div>
+              <div class="input-group" id="{{ form.idea_text.id_for_label }}">
+                <span class="input-group-addon" id="basic-addon1">Description</span>
+                {{ form.idea_text }}
+              </div>
+              <div class="input-group" id="{{ form.idea_repo.id_for_label }}">
+                <span class="input-group-addon" id="basic-addon1">Repo</span>
+                {{ form.idea_repo }}
+              </div>
+              <div class="input-group" id="{{ form.idea_owner.id_for_label }}">
+                <span class="input-group-addon" id="basic-addon1">Owner</span>
+                {{ form.idea_owner }}
+              </div>
+              <div class="input-group" id="{{ form.idea_status.id_for_label }}">
+                <span class="input-group-addon" id="basic-addon1">Status</span>
+                {{ form.idea_status }}
+              </div>
+              <div class="input-group" id="{{ form.group.category_text.id_for_label }}">
+                <span class="input-group-addon" id="basic-addon1">Group</span>
+                {{ form.group.category_text }}
+              </div>
+              </br>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            <!--p>Ideas and dreams. Comes out to you from nowhere. And sometimes they flow away with
+            the same way. Keep your ideas save fly with them and find collaborators.</p-->
+          </div>
+        </div><!--/.col-xs-12.col-sm-9-->
+      </div><!--/row-->
+      <hr>
+    </div><!--/.container-->
+{% endblock %}
