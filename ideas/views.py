@@ -10,16 +10,18 @@ from .models import Idea, Ideas_Group
 from .forms import IdeasForm, EditIdeasForm
 
 # Create your views here.
-class IndexView(generic.TemplateView):
+class IndexView(generic.ListView):
     # model = Idea
     template_name = 'ideas/index.html'
-    context_object_name = 'latest_ideas_list'
+    context_object_name = 'latest_ideas_list, ideas_list'
 
     def get(self, request):
         form = IdeasForm()
-        latest_ideas_list = Idea.objects.order_by('-pub_date')[:5]
+        latest_ideas_list = Idea.objects.order_by('-pub_date')
+        #ideas_list = Idea.objects.order_by('-pub_date')
         context = {
-            'latest_ideas_list': latest_ideas_list,
+            'latest_ideas_list': latest_ideas_list[:6],
+            'ideas_list': latest_ideas_list,
             'form': form
         }
         return render(request,
@@ -50,7 +52,6 @@ class IndexView(generic.TemplateView):
     
 class DetailView(generic.DetailView):
     model = Idea
-    
     template_name = 'ideas/details.html'
     #idea = get_object_or_404(Idea, pk=id)
     #return render(request, 'ideas/details.html', {'idea': idea})
@@ -59,30 +60,26 @@ def editView(request, id):
     #model = Idea
     idea = Idea.objects.get(pk=id)
     template_name = 'ideas/edit.html'
-
+    post = EditIdeasForm(request.POST or None, instance=idea)
     if request.method == 'POST':
-        post = EditIdeasForm(request.POST)
-        if post.is_valid():
-            post.save()
-            redirect(DetailView)
-        form = EditIdeasForm(initial={'idea_title': idea.idea_title,
-                                      'idea_text': idea.idea_text,
-                                      'idea_repo': idea.idea_repo,
-                                      'idea_owner': idea.idea_owner,
-                                      'idea_status': idea.idea_status,
-                                      'idea.group.category_text': idea.group.category_text})
-    else:
-        #TODO refactor
-        form = EditIdeasForm(initial={'idea_title': idea.idea_title,
-                                      'idea_text': idea.idea_text,
-                                      'idea_repo': idea.idea_repo,
-                                      'idea_owner': idea.idea_owner,
-                                      'idea_status': idea.idea_status,
-                                      'idea.group.category_text': idea.group.category_text})
         
-    return render(request, template_name, {'form':form, 'idea':idea})
+        if post.is_valid():
+            #post = post.save(commit=False)
+            #ideapost.pub_date=timezone.now()
+            #post.group=Ideas_Group.objects.last()
+            post.save()
+            print('HEY')
+            return redirect('ideas:index',permanent=True)
+   
+    return render(request, template_name, {'form':post, 'idea':idea})
 
 def addView(request):
     #model = Idea
     template_name = 'ideas/add.html'
     return HttpResponse("Hey your ideas are awesome.")
+
+class AboutView(generic.TemplateView):
+    template_name = 'ideas/about.html'
+
+class ContactView(generic.TemplateView):
+    template_name = 'ideas/contact.html'

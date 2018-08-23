@@ -11,22 +11,16 @@
         <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
       </p>
       <div class="jumbotron">
-        <h1>{{ idea.idea_title }}</h1>
+        <h1>Contact</h1>
       </div>
       <div class="row">
-        <ul>
-          <li>{{ idea.idea_text }}</li>
-        </ul>
-        <p><a class="btn btn-default" href="{% url 'ideas:edit' idea.id %}" role="button">Edit details »</a></p>
+        <p>TODO</p>
       </div><!--/row-->
       
     </div><!--/.col-xs-12.col-sm-9-->
-    
-    {% block sidebar %}
-    {% include "common/sidebar.html" %}{% endblock %}
+   
   </div><!--/row-->
   <hr>
   
 </div><!--/.container-->
 {% endblock %}
-
