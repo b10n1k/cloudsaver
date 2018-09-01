@@ -56,6 +56,10 @@ class DetailView(generic.DetailView):
     #idea = get_object_or_404(Idea, pk=id)
     #return render(request, 'ideas/details.html', {'idea': idea})
 
+class DetailMiniView(generic.DetailView):
+    model = Idea
+    template_name = 'ideas/details_miniview.html'
+    
 def editView(request, id):
     #model = Idea
     idea = Idea.objects.get(pk=id)
