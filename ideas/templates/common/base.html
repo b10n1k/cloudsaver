@@ -66,13 +66,20 @@
 {% block footer %}{% include "common/footer.html" %}{% endblock %}
 <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+<!-- Placed at the end of the document so the pages load faster -->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="{% static 'idead/js/jquery.min.js' %}"><\/script>')</script>
     <script src="{% static 'ideas/js/bootstrap.min.js' %}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static 'ideas/js/ie10-viewport-bug-workaround.js' %}"></script>
-    <script src="{% static 'ideas/js/offcanvas.js' %} ></script>
-  
-
+    <script src="{% static 'ideas/js/offcanvas.js' %} "></script>
+ 
+<script>
+   $('#exampleModalCenter').on('show.bs.modal', function (event) {     
+       var button = $(event.relatedTarget) // Button that triggered the modal
+       var dlink = button.attr('href') // Extract info from data-* attributes
+       $(this).find('.modal-body').load(dlink)
+})
+</script>
 </body></html>
