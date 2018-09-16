@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.utils import timezone
 import datetime
@@ -18,10 +19,12 @@ class IndexView(generic.ListView):
     def get(self, request):
         form = IdeasForm()
         latest_ideas_list = Idea.objects.order_by('-pub_date')
+        paginator = Paginator(latest_ideas_list, 10)
+        latest_ideas_pages = paginator.page(1)
         #ideas_list = Idea.objects.order_by('-pub_date')
         context = {
             'latest_ideas_list': latest_ideas_list[:6],
-            'ideas_list': latest_ideas_list,
+            'ideas_list': latest_ideas_pages,
             'form': form
         }
         return render(request,
