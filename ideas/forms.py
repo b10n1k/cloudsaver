@@ -1,5 +1,5 @@
 from django import forms
-from ideas.models import Idea
+from ideas.models import Idea, Ideas_Group
 
 class IdeasForm(forms.ModelForm):
     idea_title = forms.CharField(widget=forms.TextInput(attrs={
@@ -62,4 +62,12 @@ class EditIdeasForm(forms.ModelForm):
 
      #   if commit:
             
-        
+class AddGroupForm(forms.ModelForm):
+    category_text = forms.CharField(widget=forms.TextInput(attrs={
+        'class':'form-control',
+        'placeholder':"New Group",
+        'aria-describedby':"basic-addon1",}))
+
+    class Meta:
+        model = Ideas_Group
+        fields = ('category_text',)

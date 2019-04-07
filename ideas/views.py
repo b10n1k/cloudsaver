@@ -1,3 +1,4 @@
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
@@ -8,7 +9,7 @@ from django.utils import timezone
 import datetime
 
 from .models import Idea, Ideas_Group
-from .forms import IdeasForm, EditIdeasForm
+from .forms import IdeasForm, EditIdeasForm, AddGroupForm
 
 # Create your views here.
 class IndexView(generic.ListView):
@@ -62,29 +63,69 @@ class DetailView(generic.DetailView):
 class DetailMiniView(generic.DetailView):
     model = Idea
     template_name = 'ideas/details_miniview.html'
+
+class EditView(generic.View):
+    model=Idea
+    template_name = 'ideas/edit.html'
+
+    def get(request, pkid):
+        idea = Idea.objects.get(pk=pkid)
+        post = EditIdeasForm(request.POST or None, instance=idea)
+        #return render(request, template_name, {'idea': post})
     
+    def post(request, pkid):
+        if request.method == 'POST':
+            if post.is_valid():
+                #post = post.save(commit=False)
+                #ideapost.pub_date=timezone.now()
+                #post.group=Ideas_Group.objects.last()
+                post.save()
+                print('HEY')
+                return redirect('ideas:index', permanent=True)
+        
 def editView(request, id):
     #model = Idea
     idea = Idea.objects.get(pk=id)
     template_name = 'ideas/edit.html'
     post = EditIdeasForm(request.POST or None, instance=idea)
     if request.method == 'POST':
-        
-        if post.is_valid():
-            #post = post.save(commit=False)
-            #ideapost.pub_date=timezone.now()
-            #post.group=Ideas_Group.objects.last()
-            post.save()
-            print('HEY')
-            return redirect('ideas:index',permanent=True)
-   
+        print('delete' in request.POST)
+        if 'delete' in request.POST:
+                print('Delete method')
+                template_name = 'ideas/index.html'
+                idea.delete()
+                return redirect('ideas:index')
+        else:
+            if post.is_valid():
+                #post = post.save(commit=False)
+                #ideapost.pub_date=timezone.now()
+                #post.group=Ideas_Group.objects.last()
+                
+                post.save()
+                print('HEY')
+                return redirect('ideas:index', permanent=True) 
     return render(request, template_name, {'form':post, 'idea':idea})
 
+def deleteView(request, id):
+    idea = Idea.objects.get(pk=id)
+    template_name = 'ideas/index.html'
+    idea.delete()
+    render(request, template_name)
+    
 def addView(request):
     #model = Idea
     template_name = 'ideas/add.html'
     return HttpResponse("Hey your ideas are awesome.")
 
+class AddGroup(generic.CreateView):
+    model = Ideas_Group
+    form = AddGroupForm()
+    fields = ['category_text']
+    #model = Ideas_Group
+    #template_name = 'ideas/addgroup.html'
+    #context = {
+    #    'form': form}
+    
 class AboutView(generic.TemplateView):
     template_name = 'ideas/about.html'
 
