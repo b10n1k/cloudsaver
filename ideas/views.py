@@ -16,13 +16,17 @@ class IndexView(generic.ListView):
     # model = Idea
     template_name = 'ideas/index.html'
     context_object_name = 'latest_ideas_list, ideas_list'
-
+    
+    #latest_ideas_list = Idea.objects.order_by('-pub_date')
+    #paginator = Paginator(latest_ideas_list, 10)
+    #latest_ideas_pages = paginator.page(1)
     def get(self, request):
+        
         form = IdeasForm()
         latest_ideas_list = Idea.objects.order_by('-pub_date')
         paginator = Paginator(latest_ideas_list, 10)
         latest_ideas_pages = paginator.page(1)
-        #ideas_list = Idea.objects.order_by('-pub_date')
+        # ideas_list = Idea.objects.order_by('-pub_date')
         context = {
             'latest_ideas_list': latest_ideas_list[:6],
             'ideas_list': latest_ideas_pages,
@@ -35,16 +39,24 @@ class IndexView(generic.ListView):
     def post(self, request):
         if request.method == 'POST':
             # create a form instance and populate it with data from the request:
+            print(request.POST)
             form = IdeasForm(request.POST)
+            print(form.is_valid())    
             # check whether it's valid:
             if form.is_valid():
                 ideapost = form.save(commit=False)
                 #ideapost.pub_date=timezone.now()
-                ideapost.group=Ideas_Group.objects.last()
+                print(form.cleaned_data['group'])
+                #grp = form.cleaned_data['group']
+                #ideapost.group = form.cleaned_data.get('group')
                 ideapost.save()
+                #form.save()
         latest_ideas_list = Idea.objects.order_by('-pub_date')[:6]
+        paginator = Paginator(latest_ideas_list, 10)
+        latest_ideas_pages = paginator.page(1)
         context = {
             'latest_ideas_list': latest_ideas_list,
+            'ideas_list': latest_ideas_pages,
             'form': IdeasForm(),
         }
         return render(request,
@@ -121,6 +133,7 @@ class AddGroup(generic.CreateView):
     model = Ideas_Group
     form = AddGroupForm()
     fields = ['category_text']
+    
     #model = Ideas_Group
     #template_name = 'ideas/addgroup.html'
     #context = {

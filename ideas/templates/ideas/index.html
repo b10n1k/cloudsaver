@@ -16,7 +16,7 @@
             <form action="" method="post">
               {% csrf_token %}
               <div class="input-group" id="{{ form.title.id_for_label }}">
-                <span class="input-group-addon" id="basic-addon1">Title</span>
+                <span class="input-group-addon" id="basic-addon1">Title      </span>
                 {{ form.idea_title }}
               </div>
               <div class="input-group" id="{{ form.title.id_for_label }}">
@@ -24,7 +24,11 @@
                 {{ form.idea_text }}
               </div>
               <div class="input-group" id="{{ form.title.id_for_label }}">
-                <span class="input-group-addon" id="basic-addon1">Repo</span>
+                <span class="input-group-addon" id="basic-addon1">Group       </span>
+                {{ form.group }}
+              </div>
+              <div class="input-group" id="{{ form.title.id_for_label }}">
+                <span class="input-group-addon" id="basic-addon1">Repo        </span>
                 {{ form.idea_repo }}
               </div>
               </br>

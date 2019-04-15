@@ -5,7 +5,7 @@ import datetime
 # Create your models here.
 
 class Ideas_Group(models.Model):
-    category_text = models.CharField(max_length=30)
+    category_text = models.CharField(max_length=30, unique=True)
     # votes = models.IntegerField(default=0)
 
     def __str__(self):
