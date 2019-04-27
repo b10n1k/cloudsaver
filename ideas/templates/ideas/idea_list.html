@@ -1,0 +1,64 @@
+{% extends "common/base.html" %}
+
+
+{% block container %}
+    <div class="container">
+ 
+      <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+          <div class="jumbotron">
+            <h1>Groups</h1>
+            
+            <!--p>Ideas and dreams. Comes out to you from nowhere. And sometimes they flow away with
+            the same way. Keep your ideas save fly with them and find collaborators.</p-->
+          </div>
+          <div class="row">
+            {% if group_list %}
+            <table class="table table-striped">
+            {% for grp in group_list %}
+            <div class="col-xs-6 col-lg-4">
+              <a href="">{{ grp.idea_title }}</a>
+        
+                      
+            </div><!--/.col-xs-6.col-lg-4-->
+            </table>
+            {% endfor %}
+            {% else %}
+            <p>No polls are available.</p>
+            {% endif %}
+
+     <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Idea Description</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div><!--/row-->
+          
+        </div><!--/.col-xs-12.col-sm-9-->
+
+        {% block sidebar %}
+        {% include "common/sidebar.html" %}{% endblock %}
+      </div><!--/row-->
+      <hr>
+      
+    </div><!--/.container-->
+{% endblock %}

@@ -129,6 +129,18 @@ def addView(request):
     template_name = 'ideas/add.html'
     return HttpResponse("Hey your ideas are awesome.")
 
+
+class GroupView(generic.ListView):
+    model = Idea
+    template_name = 'ideas_group_list.html'
+    paginate_by = 10
+    
+    context_object_name = 'group_list'
+    def get_queryset(self):
+      category_slug = get_object_or_404(Ideas_Group, category_text=self.kwargs['slug'])
+      return Idea.objects.filter(group=category_slug)    
+    
+    
 class AddGroup(generic.CreateView):
     model = Ideas_Group
     form = AddGroupForm()

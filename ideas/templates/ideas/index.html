@@ -44,6 +44,7 @@
             <div class="col-xs-6 col-lg-4">
               <h2>{{ idea.idea_title }}</h2>
               <p>{{ idea.idea_text }} </p>
+              <p><a href="{% url 'ideas:groupview' idea.group.category_text %}">{{ idea.group }}</a></p>
         <p>       <!--button type="button" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url 'ideas:detailmini' idea.id %}" data-target="#exampleModalCenter"> 
                 View Details...
               </button> </p-->

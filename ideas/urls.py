@@ -9,7 +9,9 @@ urlpatterns = [
     path('details/<int:pk>/', views.DetailMiniView.as_view(), name='detailmini'),
     path('<int:id>/edit/', views.editView, name='edit'),
     path('add/', views.addView, name='add'),
-    path('addgroup', views.AddGroup.as_view(success_url='/ideas/'), name='addgroup'),
+    path('addgroup', views.AddGroup.as_view(success_url='/ideas/'),
+         name='addgroup'),
+    path('<slug:slug>/', views.GroupView.as_view(), name='groupview'),
     path('about/', views.AboutView.as_view(), name='about'),
     path('contact', views.ContactView.as_view(), name='contact'),
 ]

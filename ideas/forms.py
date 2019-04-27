@@ -34,7 +34,6 @@ class IdeasForm(forms.ModelForm):
                   'idea_repo',)
 
     def clean(self):
-        # group = self.cleaned_data.get('group')
         group, created = Ideas_Group.objects.get_or_create(
                     category_text=self.cleaned_data.get('group'))
         self.cleaned_data['group'] = group

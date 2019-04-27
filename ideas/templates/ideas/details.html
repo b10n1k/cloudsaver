@@ -17,6 +17,9 @@
         <ul>
           <li>{{ idea.idea_text }}</li>
         </ul>
+        <ul>
+          <li>{{ idea.group.category_text }}</li>
+        </ul>
         <p><a class="btn btn-default" href="{% url 'ideas:edit' idea.id %}" role="button">Edit details »</a></p>
       </div><!--/row-->
       
