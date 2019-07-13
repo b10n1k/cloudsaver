@@ -16,7 +16,7 @@ urlpatterns = [
     path('<slug:slug>/', views.GroupView.as_view(), name='groupview'),
     path('about/', views.AboutView.as_view(), name='about'),
     path('contact', views.ContactView.as_view(), name='contact'),
-    path('', include('social_django.urls', namespace='social')),
+   
 ]
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'

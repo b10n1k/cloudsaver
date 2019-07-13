@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from tinymce.models import HTMLField
 import datetime
 
 # Create your models here.
@@ -17,6 +18,7 @@ class Idea(models.Model):
     idea_repo = models.URLField(max_length=80, blank=True, null=True)
     idea_owner = models.CharField(max_length=30, blank=True, null=True)
     idea_status = models.CharField(max_length=30, blank=True, null=True)
+    content = HTMLField('content')
     pub_date = models.DateTimeField('date published', auto_now_add=True)
     group = models.ForeignKey(Ideas_Group, on_delete=models.CASCADE)
     

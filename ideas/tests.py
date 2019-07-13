@@ -1,6 +1,6 @@
 import datetime
 
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.utils import timezone
 
 from .models import Idea
@@ -34,3 +34,11 @@ class IdeasModelTests(TestCase):
         time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
         recent_idea = Idea(pub_date=time)
         self.assertIs(recent_idea.was_published_recently(), True)
+
+
+    def test_can_update_Idea(self):
+        #idea = Idea(idea_title="New")
+        c = Client()
+        idea = Idea.objects.get(pk=83)
+        c.post('/idea/83/edit/', {'idea_title': 'updated'} )
+        self.assertEquals(idea.idea_title, 'updated')

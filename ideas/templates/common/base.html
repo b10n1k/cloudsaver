@@ -55,8 +55,16 @@
             <li><a href="{% url 'ideas:about' %}">About</a></li>
             <li><a href="{% url 'ideas:contact' %}">Contact</a></li>
           </ul>
+          {% if not user.is_authenticated %}
+          <p class="navbar-text navbar-right"> <a href="{% url 'social:begin' 'github' %}" class="navbar-link">Sign In</a></p>
+          {% else %}
+          <p class="navbar-text navbar-right"> <a href="{% url 'logout' %}" class="navbar-link">{{user.username}} Logout</a></p>
+          {% endif %}
+          <!--p class="text-right0"><a href="{% url 'ideas:contact' %}">login</a></span-->
         </div><!-- /.nav-collapse -->
+        
       </div><!-- /.container -->
+   
     </nav><!-- /.navbar -->
 
 {% endblock %}
@@ -74,6 +82,9 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static 'ideas/js/ie10-viewport-bug-workaround.js' %}"></script>
     <script src="{% static 'ideas/js/offcanvas.js' %} "></script>
+    <!--Tinymce Text-Editor (Must be in Head Tag) -->
+  <script src="{% static 'tinymce/tinymce.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'ideas/js/custom_tinymce.js' %}" ></script>
  
 <script>
    $('#exampleModalCenter').on('show.bs.modal', function (event) {     

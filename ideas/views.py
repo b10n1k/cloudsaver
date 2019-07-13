@@ -150,9 +150,23 @@ class AddGroup(generic.CreateView):
     #template_name = 'ideas/addgroup.html'
     #context = {
     #    'form': form}
+
     
 class AboutView(generic.TemplateView):
     template_name = 'ideas/about.html'
 
+    
 class ContactView(generic.TemplateView):
     template_name = 'ideas/contact.html'
+
+    
+class LoginView(generic.TemplateView):
+    template_name = 'ideas/login.html'
+
+    
+def login(request):
+    return render(request, 'login.html')
+
+def logout(request):
+    logout(request)
+    return render(request, 'logout.html')

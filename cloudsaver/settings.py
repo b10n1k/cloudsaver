@@ -25,8 +25,8 @@ SECRET_KEY = '^e64%7uc0s_241+l&fho(c++0bq@s!*b(s#@_o$uf8b1y2bhqh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver',]
 
 # Application definition
 
@@ -38,7 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
+    'social_django',
+    'tinymce',
 ]
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'cloudsaver.urls'
@@ -63,6 +69,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends', 
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -100,6 +108,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    #'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
+    #'social_core.backends.google.GoogleOpenId',  # for Google authentication
+    #'social_core.backends.google.GoogleOAuth2',  # for Google authentication
+    'social_core.backends.github.GithubOAuth2',  # for Github authentication
+    #'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GITHUB_KEY = '29338482c1d2210f3f17'
+SOCIAL_AUTH_GITHUB_SECRET = 'd363e434e023f0650f505a5fecb7b4d57e31d64c'
+#SOCIAL_AUTH_GITHUB_SCOPE = []
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'ideas:index'
+LOGOUT_REDIRECT_URL = 'ideas:index'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
