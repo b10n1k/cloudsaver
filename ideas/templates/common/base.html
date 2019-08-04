@@ -55,6 +55,12 @@
             <li><a href="{% url 'ideas:about' %}">About</a></li>
             <li><a href="{% url 'ideas:contact' %}">Contact</a></li>
           </ul>
+          <form class="navbar-form navbar-left" action='{% url 'ideas:search_results' %}' method="get">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search" name="q">
+            </div>
+          </form>
+          
           {% if not user.is_authenticated %}
           <p class="navbar-text navbar-right"> <a href="{% url 'social:begin' 'github' %}" class="navbar-link">Sign In</a></p>
           {% else %}

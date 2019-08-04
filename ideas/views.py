@@ -1,9 +1,9 @@
-
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 from django.utils import timezone
 import datetime
@@ -170,3 +170,14 @@ def login(request):
 def logout(request):
     logout(request)
     return render(request, 'logout.html')
+
+class SearchResultsView(generic.ListView):
+    model = Idea
+    template_name = 'ideas/search_results.html'
+    context_object_name = 'results_list'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        results_list = Idea.objects.filter(Q(idea_title__icontains=query) |
+                                   Q(idea_text__icontains=query))
+        return results_list

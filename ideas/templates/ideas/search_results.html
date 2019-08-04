@@ -1,0 +1,46 @@
+{% extends "common/base.html" %}
+
+
+{% block container %}
+<div class="container">
+  
+  <div class="row row-offcanvas row-offcanvas-right">
+    
+    <div class="col-xs-12 col-sm-9">
+      <p class="pull-right visible-xs">
+        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+      </p>
+      <div class="jumbotron">
+        <h1>Results</h1>
+      </div>
+      <div class="row">
+        {% if results_list %}
+            <table class="table table-striped">
+            {% for item in results_list %}
+            
+            <ul class="list-group">
+              <div class="col-md-4 col-lg-8">
+                
+              <li class="list-group-item">
+                <a href="">{{ item.idea_title }}</a>
+                 <div class="col-md-4"> {{item.idea_text}} </div>
+              </li>
+              </div><!--/.col-xs-6.col-lg-4-->
+              </ul>
+            
+            </table>
+            {% endfor %}
+            {% else %}
+            <p>No results. Search unambiquis</p>
+            {% endif %}
+         </div><!--/row-->
+      
+    </div><!--/.col-xs-12.col-sm-9-->
+    
+    {% block sidebar %}
+    {% include "common/sidebar.html" %}{% endblock %}
+  </div><!--/row-->
+  <hr>
+  
+</div><!--/.container-->
+{% endblock %}
