@@ -1,6 +1,5 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -47,10 +46,8 @@ class IndexView(generic.ListView):
                 ideapost = form.save(commit=False)
                 #ideapost.pub_date=timezone.now()
                 print(form.cleaned_data['group'])
-                #grp = form.cleaned_data['group']
-                #ideapost.group = form.cleaned_data.get('group')
                 ideapost.save()
-                #form.save()
+
         latest_ideas_list = Idea.objects.order_by('-pub_date')[:6]
         paginator = Paginator(latest_ideas_list, 10)
         latest_ideas_pages = paginator.page(1)
@@ -65,17 +62,18 @@ class IndexView(generic.ListView):
             # if a GET (or any other method) we'll create a blank form
         #else:
         #   form = IdeasForm() 
-    
+
+        
 class DetailView(generic.DetailView):
     model = Idea
     template_name = 'ideas/details.html'
-    #idea = get_object_or_404(Idea, pk=id)
-    #return render(request, 'ideas/details.html', {'idea': idea})
 
+    
 class DetailMiniView(generic.DetailView):
     model = Idea
     template_name = 'ideas/details_miniview.html'
 
+    
 class EditView(generic.View):
     model=Idea
     template_name = 'ideas/edit.html'
@@ -94,7 +92,8 @@ class EditView(generic.View):
                 post.save()
                 print('HEY')
                 return redirect('ideas:index', permanent=True)
-        
+
+            
 def editView(request, id):
     #model = Idea
     idea = Idea.objects.get(pk=id)
@@ -118,11 +117,13 @@ def editView(request, id):
                 return redirect('ideas:index', permanent=True) 
     return render(request, template_name, {'form':post, 'idea':idea})
 
+
 def deleteView(request, id):
     idea = Idea.objects.get(pk=id)
     template_name = 'ideas/index.html'
     idea.delete()
     render(request, template_name)
+
     
 def addView(request):
     #model = Idea
@@ -136,8 +137,10 @@ class GroupView(generic.ListView):
     paginate_by = 10
     
     context_object_name = 'group_list'
+    
     def get_queryset(self):
-      category_slug = get_object_or_404(Ideas_Group, category_text=self.kwargs['slug'])
+      category_slug = get_object_or_404(Ideas_Group,
+                                        category_text=self.kwargs['slug'])
       return Idea.objects.filter(group=category_slug)    
     
     
@@ -145,11 +148,6 @@ class AddGroup(generic.CreateView):
     model = Ideas_Group
     form = AddGroupForm()
     fields = ['category_text']
-    
-    #model = Ideas_Group
-    #template_name = 'ideas/addgroup.html'
-    #context = {
-    #    'form': form}
 
     
 class AboutView(generic.TemplateView):
@@ -167,9 +165,11 @@ class LoginView(generic.TemplateView):
 def login(request):
     return render(request, 'login.html')
 
+
 def logout(request):
     logout(request)
     return render(request, 'logout.html')
+
 
 class SearchResultsView(generic.ListView):
     model = Idea
