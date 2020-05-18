@@ -3,6 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from rest_framework import viewsets
+from rest_framework.views import APIView
+from .serializers import IdeaSerializer
 
 from django.utils import timezone
 import datetime
@@ -10,6 +13,20 @@ import datetime
 from .models import Idea, Ideas_Group
 from .forms import IdeasForm, EditIdeasForm, AddGroupForm
 
+class IdeaViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows ideas to be viewed or edited.
+    """
+    queryset = Idea.objects.all().order_by('-pub_date')
+    serializer_class = IdeaSerializer
+
+class IdeaApiView(APIView):
+
+    def get(self, request, pk=None):
+        res = get_object_or_404(Idea, pk=pk)
+        
+        return Response ({"msg": res, status:status.HTTP_200_OK})
+ 
 # Create your views here.
 class IndexView(generic.ListView):
     # model = Idea

@@ -1,3 +1,0 @@
-{% block nav %}
-<h1> HOLLLL </h1>
-{% endblock %}
