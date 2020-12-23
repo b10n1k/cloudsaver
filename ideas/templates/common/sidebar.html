@@ -1,36 +1,37 @@
-
 {% block sidebar %}
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-          <div class="list-group">
-            {% if ideas_list %}
-    
-            {% for idea in ideas_list %}
-            <a href="{% url 'ideas:detail' idea.id %}" class="list-group-item active">{{ idea.idea_title }} since {{ idea.pub_date }}</a>
-            {% endfor %}
-            {% endif %}
-          </div>
-          {% if ideas_list.has_other_pages %}
+<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+  <div class="list-group">
+    {% if ideas_list %}
 
-          <ul class="pagination">
-            {% if ideas_list.has_previous %}
-            <li><a href="?page={{ ideas_list.previous_page_number }}">&laquo;</a></li>
-            {% else %}
-            <li class="disabled"><span>&laquo;</span></li>
-            {% endif %}
-            {% for i in ideas_list.paginator.page_range %}
-            {% if ideas_list.number == i %}
-            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-            {% else %}
-            <li><a href="?page={{ i }}">{{ i }}</a></li>
-            {% endif %}
-            {% endfor %}
-            {% if ideas_list.has_next %}
-            <li><a href="?page={{ ideas_list.next_page_number }}">&raquo;</a></li>
-            {% else %}
-            <li class="disabled"><span>&raquo;</span></li>
-            {% endif %}
-  </ul>
-{% endif %}
-        </div><!--/.sidebar-offcanvas-->
+      {% for idea in ideas_list %}
+        <a href="{% url 'ideas:detail' idea.id %}" class="list-group-item active">{{ idea.idea_title }} since {{ idea.pub_date }}</a>
+      {% endfor %}
+    {% endif %}
+  </div>
+  {% if ideas_list.has_other_pages %}
+    <ul class="pagination">
+      {% if ideas_list.has_previous %}
+        <li><a href="?page={{ ideas_list.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+      {% endif %}
+      {% for i in ideas_list.paginator.page_range %}
+        {% if ideas_list.number == i %}
+          <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+          <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if ideas_list.has_next %}
+        <li><a href="?page={{ ideas_list.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+  {% endif %}
+
+  <!--Div Class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" -->
+            </div
+              </div><!--/.sidebar-offcanvas-->
 
 {% endblock %}
