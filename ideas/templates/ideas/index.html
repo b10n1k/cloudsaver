@@ -1,17 +1,20 @@
 {% extends "common/base.html" %}
-
-
 {% block container %}
     <div class="container">
- 
       <div class="row row-offcanvas row-offcanvas-right">
 
-        <div class="col-xs-12 col-sm-9">
+        <!-- put a col in the left to list the project as buttons -->
+        {% block sidebar %}
+        {% include "common/sidebar.html" %}
+
+        {% endblock %}
+
+        <div class="col-12 col-sm-8">
           <p class="pull-right visible-xs">
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
-          <div class="jumbotron">
-            <h1>Beautiful Ideas</h1>
+          <div class="jumbotron-fluid">
+            <h3>Beautiful Ideas</h3>
             {{ form.non_field_errors }}
             <form action="" method="post">
               {% csrf_token %}
@@ -37,53 +40,72 @@
             <!--p>Ideas and dreams. Comes out to you from nowhere. And sometimes they flow away with
             the same way. Keep your ideas save fly with them and find collaborators.</p-->
           </div>
-          <div class="row">
-            {% if latest_ideas_list %}
-    
-            {% for idea in latest_ideas_list %}
-            <div class="col-xs-6 col-lg-4">
-              <h2>{{ idea.idea_title }}</h2>
-              <p>{{ idea.idea_text }} </p>
-              <p><a href="{% url 'ideas:groupview' idea.group.category_text %}">{{ idea.group }}</a></p>
-        <p>       <!--button type="button" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url 'ideas:detailmini' idea.id %}" data-target="#exampleModalCenter"> 
-                View Details...
-              </button> </p-->
 
-              <p><a class="btn btn-default" href="{% url 'ideas:detailmini' idea.id %}" role="button" data-toggle="modal" data-target="#exampleModalCenter" data-remote="false" data-link="{% url 'ideas:detailmini' idea.id %}">View details »</a></p>
+
+          {% if latest_ideas_list %}
+
+          {% for idea in latest_ideas_list %}
+          <div class="row">
+            <div class="col">
+              <div class="card text-center">
+                <div class="card-header">
+                  <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="{% url 'ideas:detail' idea.id %}">Description</a>
+                    </li>
+                    {% if idea.idea_repo %}
+                      <li class="nav-item">
+                      <a class="nav-link" href="{{ idea.idea_repo }}">Link</a>
+                    {% else %}
+                      <li class="nav-item disabled">
+                      <a class="nav-disabled" href="{{ idea.idea_repo }}">Link</a>
+                    {% endif %}
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link disabled" href="{% url 'ideas:groupview' idea.group.category_text %}" tabindex="-1" aria-disabled="true">{{ idea.group }}</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ idea.idea_title }}</h5>
+                  <p class="card-text">{{ idea.idea_text }}</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+
             </div><!--/.col-xs-6.col-lg-4-->
-            {% endfor %}
-            {% else %}
-            <p>No polls are available.</p>
-            {% endif %}
+          </div>
+          {% endfor %}
+          {% else %}
+          <p>No polls are available.</p>
+          {% endif %}
 
      <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Idea Description</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Idea Description</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          </div><!--/row-->
-          
-        </div><!--/.col-xs-12.col-sm-9-->
+        </div><!--/row-->
 
-        {% block sidebar %}
-        {% include "common/sidebar.html" %}{% endblock %}
+      </div><!--/.col-xs-12.col-sm-9-->
+
       </div><!--/row-->
-      <hr>
-      
-    </div><!--/.container-->
+    <hr>
+
+</div><!--/.container-->
 {% endblock %}
