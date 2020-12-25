@@ -3,7 +3,7 @@ import datetime
 from django.test import TestCase, Client
 from django.utils import timezone
 from .models import Idea, Ideas_Group
-
+from django.urls import reverse 
 
 class IdeasModelTests(TestCase):
 
@@ -43,8 +43,13 @@ class IdeasModelTests(TestCase):
 
     def test_can_update_Idea(self):
         #idea = Idea(idea_title="New")
-        c = Client()
+        #c = Client()
         #idea = Idea.objects.get(idea_title='unittest')
-        testid = Idea(1,"bbb","testtxt")
-        c.post('/idea/%s/edit/' % testid.id, {'idea_title': 'updated'} )
-        self.assertEquals(testid.idea_title, 'updated')
+        test_group = Ideas_Group(category_text="test")
+        test_group.save()
+        testid = Idea(1,"bbb","testtxt",group=test_group)
+        testid.save()
+        response = self.client.post(reverse("ideas:edit",kwargs={'pk': testid.pk}), {'idea_title': 'updated'} )
+        self.assertEqual(response.status_code, 200)
+        #self.assertEquals(response, reverse('ideas:edit',kwargs={'pk': testid.pk} ))
+        #self.assertEquals(testid.idea_title, 'updated')
