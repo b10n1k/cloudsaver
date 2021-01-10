@@ -17,7 +17,7 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('details/<int:pk>/', views.DetailMiniView.as_view(), name='detailmini'),
-    path('<int:id>/edit/', views.editView, name='edit'),
+    path('<int:pk>/edit/', views.EditView.as_view(), name='edit'),
     # path('<int:id>/proposal/', include('tinymce.urls'), name='editor'),
     path('tinymce/', include('tinymce.urls')),
     path('add/', views.addView, name='add'),
