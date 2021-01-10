@@ -1,9 +1,9 @@
 import datetime
-
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.utils import timezone
 from .models import Idea, Ideas_Group
 from django.urls import reverse 
+
 
 class IdeasModelTests(TestCase):
 
@@ -40,16 +40,17 @@ class IdeasModelTests(TestCase):
         recent_idea = Idea(pub_date=time)
         self.assertIs(recent_idea.was_published_recently(), True)
 
-
     def test_can_update_Idea(self):
-        #idea = Idea(idea_title="New")
-        #c = Client()
-        #idea = Idea.objects.get(idea_title='unittest')
-        test_group = Ideas_Group(category_text="test")
-        test_group.save()
-        testid = Idea(1,"bbb","testtxt",group=test_group)
-        testid.save()
-        response = self.client.post(reverse("ideas:edit",kwargs={'pk': testid.pk}), {'idea_title': 'updated'} )
-        self.assertEqual(response.status_code, 200)
-        #self.assertEquals(response, reverse('ideas:edit',kwargs={'pk': testid.pk} ))
-        #self.assertEquals(testid.idea_title, 'updated')
+        mock_group = Ideas_Group.objects.create(category_text="test")
+        mock_idea = Idea.objects.create(idea_title="bbb", idea_text="testtxt", group=mock_group)
+        response = self.client.post(reverse("ideas:edit",
+                                            kwargs={'pk': mock_idea.pk}),
+                                    {'idea_title': 'updated',
+                                     'idea_text': 'testtxt',
+                                     'idea_repo': '',
+                                     'idea_owner': '',
+                                     'idea_status': '',
+                                     'group': mock_group.id} )
+        self.assertEqual(response.status_code, 302)
+        mock_idea.refresh_from_db()
+        self.assertEquals(mock_idea.idea_title, 'updated')

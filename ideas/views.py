@@ -99,71 +99,6 @@ class EditView(generic.UpdateView):
     #redirect_url="ideas/details.html"
     def get_success_url(self):
         return reverse('ideas:index')
-    # def get(self, request, id):
-    #     idea = Idea.objects.get(pk=id)
-    #     post = EditIdeasForm(request.GET or None, instance=idea)
-    #     return render(request, template_name, {'idea': post})
-    
-    # def post(self, request, pk):
-    #     #post = EditIdeasForm(request.POST or None, instance=idea)
-
-    #     if request.method == 'POST':
-    #         print('delete' in request.POST)
-    #         if 'delete' in request.POST:
-    #                 print('Delete method')
-    #                 template_name = 'ideas/index.html'
-    #                 idea.delete()
-    #                 return redirect('ideas:index')
-            # else:
-            #     if req.is_valid():
-            #         #post = post.save(commit=False)
-            #         #ideapost.pub_date=timezone.now()
-            #         #post.group=Ideas_Group.objects.last()
-
-            #         post.save()
-            #         print('HEY')
-            #         return redirect('ideas:index', permanent=True) 
-        # form = EditIdeasForm(request.POST)
-        # print(form.is_valid())    
-        # # check whether it's valid:
-        # if form.is_valid():
-        #     ideapost = form.save(commit=False)
-        #     #ideapost.pub_date=timezone.now()
-        #     print(form.cleaned_data['group'])
-        #     ideapost.save()
-        # if request.method == 'POST':
-        #     if post.is_valid():
-        #         #post = post.save(commit=False)
-        #         #ideapost.pub_date=timezone.now()
-        #         #post.group=Ideas_Group.objects.last()
-        #         post.save()
-        #         print('HEY')
-        #         return redirect('ideas:index', permanent=True)
-
-            
-# def editView(request, id):
-#     #model = Idea
-#     idea = Idea.objects.get(pk=id)
-#     template_name = 'ideas/edit.html'
-#     post = EditIdeasForm(request.POST or None, instance=idea)
-#     if request.method == 'POST':
-#         print('delete' in request.POST)
-#         if 'delete' in request.POST:
-#                 print('Delete method')
-#                 template_name = 'ideas/index.html'
-#                 idea.delete()
-#                 return redirect('ideas:index')
-#         else:
-#             if post.is_valid():
-#                 #post = post.save(commit=False)
-#                 #ideapost.pub_date=timezone.now()
-#                 #post.group=Ideas_Group.objects.last()
-                
-#                 post.save()
-#                 print('HEY')
-#                 return redirect('ideas:index', permanent=True) 
-#     return render(request, template_name, {'form':post, 'idea':idea})
-
 
 # def deleteView(request, id):
 #     idea = Idea.objects.get(pk=id)
@@ -171,6 +106,14 @@ class EditView(generic.UpdateView):
 #     idea.delete()
 #     render(request, template_name)
 
+# TODO: delete idea from the update view
+class DeleteIdea(generic.DeleteView):
+    model=Idea
+    template_name = 'ideas/idea_update_form.html'
+    template_name_suffix = '_update_form'
+    #success_url='/'
+    def get_success_url(self):
+        return reverse('ideas:index')
     
 def addView(request):
     #model = Idea
